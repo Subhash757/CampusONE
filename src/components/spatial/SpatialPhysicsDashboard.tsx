@@ -138,7 +138,7 @@ export const SpatialPhysicsDashboard: React.FC = () => {
 
           <button
             onClick={() => setActiveScreen('attendance')}
-            className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-teal-700 dark:text-teal-400 text-xs font-semibold border border-slate-200 dark:border-white/5 transition-all"
+            className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold shadow-md shadow-emerald-500/20 active:scale-[0.98] transition-all"
           >
             <span>Enter Attendance Hall</span>
             <ArrowRight className="w-4 h-4" />
@@ -178,7 +178,7 @@ export const SpatialPhysicsDashboard: React.FC = () => {
 
           <button
             onClick={() => setActiveScreen('exams')}
-            className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-rose-700 dark:text-rose-300 text-xs font-semibold border border-slate-200 dark:border-white/5 transition-all"
+            className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white text-xs font-bold shadow-md shadow-rose-500/20 active:scale-[0.98] transition-all"
           >
             <span>Launch Exam Center</span>
             <ArrowRight className="w-4 h-4" />
@@ -218,7 +218,7 @@ export const SpatialPhysicsDashboard: React.FC = () => {
 
           <button
             onClick={() => setActiveScreen('quizzes')}
-            className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-violet-700 dark:text-violet-300 text-xs font-semibold border border-slate-200 dark:border-white/5 transition-all"
+            className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold shadow-md shadow-purple-500/20 active:scale-[0.98] transition-all"
           >
             <span>Enter Quiz Arena</span>
             <ArrowRight className="w-4 h-4" />
@@ -260,7 +260,7 @@ export const SpatialPhysicsDashboard: React.FC = () => {
 
           <button
             onClick={() => setActiveScreen('interviews')}
-            className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-cyan-700 dark:text-cyan-300 text-xs font-semibold border border-slate-200 dark:border-white/5 transition-all"
+            className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold shadow-md shadow-cyan-500/20 active:scale-[0.98] transition-all"
           >
             <span>Launch Interview Practice</span>
             <ArrowRight className="w-4 h-4" />

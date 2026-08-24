@@ -1,32 +1,50 @@
-# React + TypeScript + Vite
+# VVCE CampusONE 🎓
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+**Unified Digital Campus Portal for Vidyavardhaka College of Engineering (VVCE), Mysuru.**
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 👨‍💻 Author & Creator
 
-## React Compiler
+Created and developed with ❤️ by **Subhash K M**
+- **GitHub**: [github.com/Subhash757](https://github.com/Subhash757)
+- **Email**: `subhashkmsubhash4@gmail.com`
+- **Phone**: `+91 8951069414`
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the Oxlint configuration
+## 🚀 Overview
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+**VVCE CampusONE** is a comprehensive, interactive digital campus management platform tailored for students, faculty members, and institutional administrators at Vidyavardhaka College of Engineering.
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+### Key Features:
+- 📊 **Attendance Hall**: Roster tracking with 75% shortage alert threshold & QR code scanner simulation.
+- 📝 **Examination Center**: Proctored online tests with countdown timers, autosave protection & objective auto-grading.
+- 🏆 **Quiz Arena**: Topic-based rapid challenges, streaks & global campus leaderboard.
+- 🎙️ **Interview Studio**: AI voice practice simulator, speech recognition & spider radar analytical feedback charts.
+- 🏫 **Faculty Lounge**: Subject roster management, descriptive essay grading rubrics & notice broadcasting.
+- 🏢 **Admin Tower**: Institution-wide metrics, user permissions matrix & downloadable CSV audit logs.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend**: React 19, TypeScript, Vite
+- **Styling**: TailwindCSS 4, Lucide Icons, Custom Glassmorphism & HSL Color Tokens
+- **Interactive Visualizations**: Three.js, React Three Fiber, Recharts, Canvas Confetti
+
+---
+
+## 💻 Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.

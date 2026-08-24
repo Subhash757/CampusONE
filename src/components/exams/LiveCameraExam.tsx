@@ -212,7 +212,7 @@ const Print100MarksReportCard: React.FC<{
 }) => (
   <div id="live-exam-100-print" className="printable-area" style={{ display: 'none' }}>
     <div className="print-header">
-      <img src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=120" alt="VVCE Logo" className="print-logo" />
+      <img src="/vvce-logo.png" alt="VVCE Official Logo" className="print-logo" />
       <div className="print-title">
         <h1>OFFICIAL 100-MARKS LIVE PROCTORED EXAMINATION SCORECARD</h1>
         <p>Vidya Vardhaka College of Engineering, Mysuru — Academic Year 2026–27</p>

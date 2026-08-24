@@ -11,13 +11,19 @@ import {
   Mic,
   Building2,
   Lock,
-  LogIn
+  LogIn,
+  Compass,
+  ExternalLink,
+  Award,
+  Globe
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { UserRole } from '../../types';
+import { VVCECollegeNavbar } from './VVCECollegeNavbar';
+import { SubhashDeveloperCard } from '../common/SubhashDeveloperCard';
 
 export const LandingPage: React.FC = () => {
-  const { setShowAuthModal } = useApp();
+  const { setShowAuthModal, setActiveScreen } = useApp();
 
   const handleLaunchRole = () => {
     setShowAuthModal(true);
@@ -25,32 +31,12 @@ export const LandingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#FFFDF7] dark:bg-[#1F2933] text-slate-900 dark:text-white selection:bg-[#10B981] selection:text-white relative overflow-hidden transition-colors duration-250">
+      {/* VVCE Official College Navbar & Code Banner */}
+      <VVCECollegeNavbar />
+
       {/* Background Spatial Glow Orbs */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#10B981]/15 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-[#FF6B6B]/15 rounded-full blur-3xl pointer-events-none" />
-
-      {/* Public Header */}
-      <header className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between z-20 relative">
-        <div className="flex items-center space-x-3">
-          <div className="w-11 h-11 rounded-xl bg-white p-1 border border-slate-200 dark:border-white/10 shadow-xs flex items-center justify-center shrink-0">
-            <img src="/vvce-logo.png" alt="VVCE Official Logo" className="w-full h-full object-contain" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              VVCE <span className="bg-gradient-to-r from-[#10B981] to-[#FF6B6B] bg-clip-text text-transparent">CampusONE</span>
-            </h1>
-            <p className="text-[11px] text-[#667085] font-medium">Vidyavardhaka College of Engineering, Mysuru</p>
-          </div>
-        </div>
-
-        <button
-          onClick={() => setShowAuthModal(true)}
-          className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#10B981] to-[#FF6B6B] hover:opacity-95 text-white font-bold text-xs shadow-md shadow-[#10B981]/25 active:scale-[0.98] transition-all flex items-center space-x-2"
-        >
-          <LogIn className="w-4 h-4" />
-          <span>VVCE Login / Register</span>
-        </button>
-      </header>
 
       {/* Hero Showcase */}
       <section className="max-w-7xl mx-auto px-6 pt-6 pb-16 text-center space-y-8 z-10 relative">
@@ -177,6 +163,90 @@ export const LandingPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* About VVCE Campus Section */}
+      <section className="max-w-7xl mx-auto px-6 py-12 border-t border-slate-200 dark:border-white/10 space-y-6">
+        <div className="glass-panel rounded-3xl p-8 border border-slate-200 dark:border-white/10 bg-white dark:bg-[#324148] space-y-6 shadow-xl relative overflow-hidden">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-white/10">
+            <div className="flex items-center space-x-4">
+              <div className="w-14 h-14 rounded-2xl bg-white p-2 border border-slate-200 dark:border-white/10 shadow-sm flex items-center justify-center shrink-0">
+                <img src="/vvce-logo.png" alt="VVCE Logo" className="w-full h-full object-contain" />
+              </div>
+              <div>
+                <span className="text-[10px] font-mono font-bold uppercase px-2.5 py-0.5 rounded-full bg-[#10B981]/15 text-[#10B981] dark:text-[#F4C95D] border border-[#10B981]/30">
+                  Vidyavardhaka Sangha ®, Mysuru
+                </span>
+                <h2 className="text-xl md:text-2xl font-extrabold text-slate-900 dark:text-white mt-1">
+                  About Vidyavardhaka College of Engineering (VVCE)
+                </h2>
+                <p className="text-xs text-[#667085] dark:text-slate-300">
+                  Autonomous Institute Affiliated to VTU, Belagavi | Accredited NAAC 'A' Grade & NBA
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-3">
+              <a
+                href="https://vvce.ac.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#10B981] to-[#FF6B6B] hover:opacity-95 text-white font-bold text-xs shadow-md shadow-[#10B981]/25 transition-all flex items-center space-x-1.5"
+              >
+                <Globe className="w-4 h-4" />
+                <span>vvce.ac.in</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 text-xs text-slate-600 dark:text-slate-300">
+            <div className="space-y-1.5 p-4 rounded-2xl bg-slate-50 dark:bg-[#1F2933] border border-slate-200 dark:border-white/10">
+              <div className="flex items-center space-x-2 font-bold text-slate-900 dark:text-white">
+                <Award className="w-4 h-4 text-[#10B981]" />
+                <span>Autonomous & Accredited</span>
+              </div>
+              <p className="text-[11px] leading-relaxed">
+                Autonomous status granted by VTU Belagavi from 2020. NAAC Grade 'A' and NBA accredited programs for CSE, ISE, ECE, EEE, and Mechanical Engineering.
+              </p>
+            </div>
+
+            <div className="space-y-1.5 p-4 rounded-2xl bg-slate-50 dark:bg-[#1F2933] border border-slate-200 dark:border-white/10">
+              <div className="flex items-center space-x-2 font-bold text-slate-900 dark:text-white">
+                <GraduationCap className="w-4 h-4 text-[#F4C95D]" />
+                <span>State-of-the-Art Mysuru Campus</span>
+              </div>
+              <p className="text-[11px] leading-relaxed">
+                23+ acre elevated campus in Gokulam, Mysuru equipped with advanced research centers, incubation ecosystem, digital library & active sports facilities.
+              </p>
+            </div>
+
+            <div className="space-y-1.5 p-4 rounded-2xl bg-slate-50 dark:bg-[#1F2933] border border-slate-200 dark:border-white/10">
+              <div className="flex items-center space-x-2 font-bold text-slate-900 dark:text-white">
+                <Shield className="w-4 h-4 text-[#FF6B6B]" />
+                <span>Institutional Codes</span>
+              </div>
+              <p className="text-[11px] font-mono leading-relaxed">
+                CET: <strong>E071</strong> | COMED-K: <strong>E147</strong> | PGCET MBA: <strong>B315</strong> | PGCET MTech: <strong>T886</strong> | PGCET MCA: <strong>C613</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Developer & Contact Section */}
+      <section className="max-w-7xl mx-auto px-6 py-6 relative z-10">
+        <SubhashDeveloperCard />
+      </section>
+
+      {/* Footer */}
+      <footer className="max-w-7xl mx-auto px-6 py-8 border-t border-slate-200 dark:border-white/10 text-center space-y-2 relative z-10">
+        <p className="text-xs text-[#667085] dark:text-slate-400 font-medium">
+          VVCE CampusONE &copy; {new Date().getFullYear()} Vidyavardhaka College of Engineering, Mysuru.
+        </p>
+        <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
+          All Rights Reserved by <span className="bg-gradient-to-r from-[#10B981] via-[#F4C95D] to-[#FF6B6B] bg-clip-text text-transparent font-extrabold tracking-wide">Subhash K M</span>
+        </p>
+      </footer>
     </div>
   );
 };

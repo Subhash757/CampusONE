@@ -350,9 +350,9 @@ export const LiveInterviewSessionScreen: React.FC = () => {
       ctx.lineWidth = 3.5;
       const bx = headX - 85, by = headY - 95, bw = 170, bh = 195;
       ctx.beginPath(); ctx.moveTo(bx, by + 20); ctx.lineTo(bx, by); ctx.lineTo(bx + 20, by); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(bx + bw - 20, by); ctx.lineTo(bx + bw); ctx.lineTo(bx + bw, by + 20); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(bx + bw - 20, by); ctx.lineTo(bx + bw, by); ctx.lineTo(bx + bw, by + 20); ctx.stroke();
       ctx.beginPath(); ctx.moveTo(bx, by + bh - 20); ctx.lineTo(bx, by + bh); ctx.lineTo(bx + 20, by + bh); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(bx + bw - 20, by + bh); ctx.lineTo(bx + bw); ctx.lineTo(bx + bw, by + bh - 20); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(bx + bw - 20, by + bh); ctx.lineTo(bx + bw, by + bh); ctx.lineTo(bx + bw, by + bh - 20); ctx.stroke();
 
       ctx.fillStyle = '#10B981';
       [

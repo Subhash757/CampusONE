@@ -25,8 +25,8 @@ html.dark, .dark {
 /* Light Mode Styles */
 html.light, .light {
   color-scheme: light;
-  background-color: #FFFDF7;
-  color: #111827;
+  background-color: #F8FAFC;
+  color: #0F172A;
 }
 
 body {
@@ -41,8 +41,8 @@ body {
 }
 
 .light body {
-  background-color: #FFFDF7;
-  color: #111827;
+  background-color: #F8FAFC;
+  color: #0F172A;
 }
 
 .dark body {
@@ -56,7 +56,7 @@ h1, h2, h3, .font-heading {
 }
 
 .light h1, .light h2, .light h3, .light .font-heading {
-  color: #111827;
+  color: #0F172A;
 }
 
 /* Custom Scrollbars */
@@ -69,7 +69,7 @@ h1, h2, h3, .font-heading {
   background: #1F2933;
 }
 .light ::-webkit-scrollbar-track {
-  background: #E5E7EB;
+  background: #F1F5F9;
 }
 
 .dark ::-webkit-scrollbar-thumb {
@@ -77,43 +77,43 @@ h1, h2, h3, .font-heading {
   border-radius: 4px;
 }
 .light ::-webkit-scrollbar-thumb {
-  background: #94a3b8;
+  background: #CBD5E1;
   border-radius: 4px;
 }
 
 /* Glassmorphism Panels */
 .dark .glass-panel {
-  background: #324148;
+  background: #283540;
   color: #FFFFFF;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35);
 }
 
 .light .glass-panel {
   background: #FFFFFF;
-  color: #111827;
-  border: 1px solid #E5E7EB;
+  color: #0F172A;
+  border: 1px solid #E2E8F0;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 }
 
 .dark .glass-panel-interactive {
-  background: #324148;
+  background: #283540;
   color: #FFFFFF;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 6px 20px -2px rgba(0, 0, 0, 0.3);
 }
 
 .light .glass-panel-interactive {
   background: #FFFFFF;
-  color: #111827;
-  border: 1px solid #E5E7EB;
+  color: #0F172A;
+  border: 1px solid #E2E8F0;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
 .dark .glass-panel-interactive:hover {
-  background: #3D4C54;
+  background: #324148;
   border-color: rgba(16, 185, 129, 0.5);
   transform: translateY(-2px);
   box-shadow: 0 12px 28px -4px rgba(16, 185, 129, 0.2);
@@ -219,21 +219,35 @@ h1, h2, h3, .font-heading {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   PDF / Print Styles — Live Interview Report Card
+   PDF / Print Styles — Live Interview Report Card & Exam Scorecards
    ═══════════════════════════════════════════════════════════ */
 @media print {
-  /* Hide main UI containers except printable report IDs */
-  body > * { display: none !important; }
-  #live-report-print, #live-exam-100-print, [id$="-print"], .printable-area {
-    display: block !important;
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 100% !important;
+  body {
     background: #ffffff !important;
     color: #111827 !important;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 11pt;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Hide app navigation header, sidebar, buttons, overlays */
+  header, nav, aside, button, .no-print {
+    display: none !important;
+  }
+
+  #live-report-print, #live-exam-100-print, [id$="-print"], .printable-area {
+    display: block !important;
+    visibility: visible !important;
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    background: #ffffff !important;
+    color: #111827 !important;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
+    font-size: 10pt;
+    padding: 20px !important;
+    box-sizing: border-box !important;
   }
 
   .print-header {

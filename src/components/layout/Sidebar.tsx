@@ -12,7 +12,8 @@ import {
   Calendar,
   Megaphone,
   Settings,
-  AlertCircle
+  AlertCircle,
+  Compass
 } from 'lucide-react';
 import { useApp, ScreenId } from '../../context/AppContext';
 
@@ -43,6 +44,7 @@ export const Sidebar: React.FC = () => {
     { id: 'user_management', label: 'User & System Data', icon: Users, rolesAllowed: ['admin'] },
     { id: 'timetable', label: 'Class Timetable', icon: Calendar },
     { id: 'announcements', label: 'Announcements', icon: Megaphone },
+    { id: 'about_campus', label: 'About VVCE Campus', icon: Compass, badge: 'Official', badgeColor: 'bg-[#10B981]/15 text-[#10B981] border-[#10B981]/30' },
     { id: 'settings', label: 'System & Preferences', icon: Settings },
   ];
 
@@ -55,7 +57,7 @@ export const Sidebar: React.FC = () => {
     <aside className="w-64 glass-panel border-r border-slate-200 dark:border-white/10 flex flex-col justify-between py-4 px-3 select-none shrink-0 hidden md:flex">
       <div className="space-y-6">
         <div className="px-3">
-          <p className="text-[10px] font-mono uppercase tracking-widest text-[#667085] font-bold">
+          <p className="text-[10px] font-mono uppercase tracking-widest text-slate-500 dark:text-emerald-400 font-bold">
             Campus Zones & Modules
           </p>
         </div>
@@ -69,16 +71,16 @@ export const Sidebar: React.FC = () => {
               <button
                 key={item.id}
                 onClick={() => setActiveScreen(item.id)}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all group ${
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs transition-all group ${
                   isActive
-                    ? 'bg-[#10B981] text-white font-bold shadow-md shadow-[#10B981]/20 border border-[#10B981]/40'
-                    : 'text-[#667085] dark:text-[#A0AEC0] hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#3D4C54] border border-transparent'
+                    ? 'bg-[#10B981] text-white font-extrabold shadow-md shadow-[#10B981]/25 border border-[#10B981]'
+                    : 'text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#324148] font-medium border border-transparent'
                 }`}
               >
                 <div className="flex items-center space-x-3">
                   <Icon
                     className={`w-4 h-4 transition-transform group-hover:scale-105 ${
-                      isActive ? 'text-white' : 'text-[#667085] group-hover:text-slate-900 dark:group-hover:text-white'
+                      isActive ? 'text-white' : 'text-slate-500 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white'
                     }`}
                   />
                   <span>{item.label}</span>
@@ -118,6 +120,13 @@ export const Sidebar: React.FC = () => {
           )}
         </div>
       )}
+
+      {/* Creator Credit */}
+      <div className="pt-3 mt-2 px-2 text-center border-t border-slate-200 dark:border-white/10">
+        <p className="text-[10px] text-[#667085] dark:text-slate-400 font-medium">
+          Created by <span className="bg-gradient-to-r from-[#10B981] to-[#FF6B6B] bg-clip-text text-transparent font-bold">Subhash K M</span>
+        </p>
+      </div>
     </aside>
   );
 };

@@ -45,51 +45,22 @@ export const ProfileSettings: React.FC = () => {
         </div>
       </div>
 
-      {/* Theme Preference Selector */}
+      {/* Theme Preference */}
       <div className="glass-panel rounded-3xl p-6 border border-slate-200 dark:border-white/10 space-y-4 shadow-xl bg-white dark:bg-[#324148]">
         <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase font-mono tracking-wider flex items-center space-x-2">
-          <Sun className="w-4 h-4 text-[#F4C95D]" />
-          <span>Appearance & Theme Mode</span>
+          <Moon className="w-4 h-4 text-[#10B981]" />
+          <span>Active System Theme</span>
         </h3>
 
-        <div className="grid grid-cols-2 gap-4">
-          {/* Light Theme Card */}
-          <div
-            onClick={() => setTheme('light')}
-            className={`p-5 rounded-2xl border cursor-pointer transition-all flex flex-col justify-between space-y-3 ${
-              theme === 'light'
-                ? 'bg-[#FFFDF7] border-[#10B981] ring-2 ring-[#10B981]/30 shadow-md text-[#111827]'
-                : 'bg-slate-50 dark:bg-[#1F2933] border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:border-[#10B981]/50'
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2 font-bold text-sm">
-                <Sun className="w-5 h-5 text-[#F4C95D]" />
-                <span>Warm Light Mode</span>
-              </div>
-              {theme === 'light' && <Check className="w-4 h-4 text-[#10B981] font-bold" />}
+        <div className="p-5 rounded-2xl bg-[#1F2933] border border-[#10B981] ring-2 ring-[#10B981]/40 shadow-lg text-white space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2 font-bold text-sm text-white">
+              <Moon className="w-5 h-5 text-[#10B981]" />
+              <span>Graphite Dark Mode (Active)</span>
             </div>
-            <p className="text-xs opacity-80 text-[#667085]">Clean warm-white (#FFFDF7) backgrounds with soft black typography and emerald accents.</p>
+            <Check className="w-4 h-4 text-[#10B981] font-bold" />
           </div>
-
-          {/* Dark Theme Card */}
-          <div
-            onClick={() => setTheme('dark')}
-            className={`p-5 rounded-2xl border cursor-pointer transition-all flex flex-col justify-between space-y-3 ${
-              theme === 'dark'
-                ? 'bg-[#1F2933] border-[#10B981] ring-2 ring-[#10B981]/40 shadow-lg text-white'
-                : 'bg-slate-50 dark:bg-[#1F2933] border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:border-[#10B981]/50'
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2 font-bold text-sm text-white">
-                <Moon className="w-5 h-5 text-[#10B981]" />
-                <span>Graphite Dark Mode</span>
-              </div>
-              {theme === 'dark' && <Check className="w-4 h-4 text-[#10B981] font-bold" />}
-            </div>
-            <p className="text-xs text-slate-300">Sleek graphite background (#1F2933) with charcoal cards and emerald/coral accents.</p>
-          </div>
+          <p className="text-xs text-slate-300">Sleek graphite background (#1F2933) with charcoal glass panels and emerald accents.</p>
         </div>
       </div>
     </div>

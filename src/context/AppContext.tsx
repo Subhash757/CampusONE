@@ -54,7 +54,8 @@ export type ScreenId =
   | 'timetable'
   | 'announcements'
   | 'profile'
-  | 'settings';
+  | 'settings'
+  | 'about_campus';
 
 export type ThemeMode = 'dark' | 'light';
 
@@ -146,26 +147,43 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
+const loadStorage = <T,>(key: string, fallback: T): T => {
+  try {
+    const saved = localStorage.getItem(key);
+    return saved ? JSON.parse(saved) : fallback;
+  } catch {
+    return fallback;
+  }
+};
+
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState<User>(() => {
-    const saved = localStorage.getItem('vvce_user');
-    return saved ? JSON.parse(saved) : mockUsers[0];
-  });
-
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    return Boolean(localStorage.getItem('vvce_auth'));
-  });
-
-  const [theme, setThemeState] = useState<ThemeMode>(() => {
-    const saved = localStorage.getItem('vvce_theme');
-    return (saved as ThemeMode) || 'dark';
-  });
+  const [currentUser, setCurrentUser] = useState<User>(() => loadStorage('vvce_user', mockUsers[0]));
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => loadStorage('vvce_auth', false));
+  const [theme, setThemeState] = useState<ThemeMode>('dark');
 
   const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
   const [activeScreen, setActiveScreen] = useState<ScreenId>('landing');
   const [selectedZone, setSelectedZone] = useState<string>('all');
-  const [users, setUsers] = useState<User[]>(mockUsers);
-  const [pendingUsers, setPendingUsers] = useState<User[]>(mockPendingUsers);
+  
+  const [users, setUsers] = useState<User[]>(() => loadStorage('vvce_users', mockUsers));
+  const [pendingUsers, setPendingUsers] = useState<User[]>(() => loadStorage('vvce_pending_users', mockPendingUsers));
+  const [attendanceRecords, setAttendanceRecords] = useState<AttendanceRecord[]>(() => loadStorage('vvce_attendance', mockAttendanceRecords));
+  const [leaveRequests, setLeaveRequests] = useState<LeaveRequest[]>(() => loadStorage('vvce_leave_requests', mockLeaveRequests));
+  const [exams, setExams] = useState<Exam[]>(() => loadStorage('vvce_exams', mockExams));
+  const [activeExamId, setActiveExamId] = useState<string | null>(null);
+  const [examAttempts, setExamAttempts] = useState<ExamAttempt[]>(() => loadStorage('vvce_exam_attempts', []));
+  const [quizzes, setQuizzes] = useState<Quiz[]>(() => loadStorage('vvce_quizzes', mockQuizzes));
+  const [activeQuizId, setActiveQuizId] = useState<string | null>(null);
+  const [userPoints, setUserPoints] = useState<number>(() => loadStorage('vvce_user_points', 420));
+  const [userBadges, setUserBadges] = useState<string[]>(() => loadStorage('vvce_user_badges', ['⚡ VVCE DSA Champion', '🎓 VVCE Scholar']));
+  const [interviewAttempts, setInterviewAttempts] = useState<InterviewAttempt[]>(() => loadStorage('vvce_interview_attempts', mockInterviewAttempts));
+  const [activeInterviewAttemptId, setActiveInterviewAttemptId] = useState<string | null>(mockInterviewAttempts[0]?.id || null);
+  const [announcements, setAnnouncements] = useState<Announcement[]>(() => loadStorage('vvce_announcements', mockAnnouncements));
+  const [notifications, setNotifications] = useState<NotificationItem[]>(() => loadStorage('vvce_notifications', mockNotifications));
+  const [spatialWidgets, setSpatialWidgets] = useState<SpatialWidget[]>(() => loadStorage('vvce_spatial_widgets', mockSpatialWidgets));
+  const [auditLogs, setAuditLogs] = useState<AuditLog[]>(() => loadStorage('vvce_audit_logs', mockAuditLogs));
+  const [liveInterviewSessions, setLiveInterviewSessions] = useState<LiveInterviewSession[]>(() => loadStorage('vvce_live_interview_sessions', mockLiveInterviewSessions));
+  const [activeLiveSessionId, setActiveLiveSessionId] = useState<string | null>(null);
 
   const registerUser = (newUser: User) => {
     const userWithStatus: User = { ...newUser, status: 'pending' };
@@ -191,46 +209,30 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   };
 
-  const [attendanceRecords, setAttendanceRecords] = useState<AttendanceRecord[]>(mockAttendanceRecords);
-  const [leaveRequests, setLeaveRequests] = useState<LeaveRequest[]>(mockLeaveRequests);
-  const [exams, setExams] = useState<Exam[]>(mockExams);
-  const [activeExamId, setActiveExamId] = useState<string | null>(null);
-  const [examAttempts, setExamAttempts] = useState<ExamAttempt[]>([]);
-  const [quizzes] = useState<Quiz[]>(mockQuizzes);
-  const [activeQuizId, setActiveQuizId] = useState<string | null>(null);
-  const [userPoints, setUserPoints] = useState<number>(420);
-  const [userBadges] = useState<string[]>(['⚡ VVCE DSA Champion', '🎓 VVCE Scholar']);
-  const [interviewAttempts, setInterviewAttempts] = useState<InterviewAttempt[]>(mockInterviewAttempts);
-  const [activeInterviewAttemptId, setActiveInterviewAttemptId] = useState<string | null>(mockInterviewAttempts[0].id);
-  const [announcements, setAnnouncements] = useState<Announcement[]>(mockAnnouncements);
-  const [notifications, setNotifications] = useState<NotificationItem[]>(mockNotifications);
-  const [spatialWidgets, setSpatialWidgets] = useState<SpatialWidget[]>(mockSpatialWidgets);
-  const [auditLogs, setAuditLogs] = useState<AuditLog[]>(mockAuditLogs);
-  const [liveInterviewSessions, setLiveInterviewSessions] = useState<LiveInterviewSession[]>(mockLiveInterviewSessions);
-  const [activeLiveSessionId, setActiveLiveSessionId] = useState<string | null>(null);
-
-  useEffect(() => {
-    localStorage.setItem('vvce_user', JSON.stringify(currentUser));
-  }, [currentUser]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      localStorage.setItem('vvce_auth', 'true');
-    } else {
-      localStorage.removeItem('vvce_auth');
-    }
-  }, [isAuthenticated]);
+  // Auto-persist all application state in localStorage
+  useEffect(() => { localStorage.setItem('vvce_user', JSON.stringify(currentUser)); }, [currentUser]);
+  useEffect(() => { localStorage.setItem('vvce_auth', JSON.stringify(isAuthenticated)); }, [isAuthenticated]);
+  useEffect(() => { localStorage.setItem('vvce_users', JSON.stringify(users)); }, [users]);
+  useEffect(() => { localStorage.setItem('vvce_pending_users', JSON.stringify(pendingUsers)); }, [pendingUsers]);
+  useEffect(() => { localStorage.setItem('vvce_attendance', JSON.stringify(attendanceRecords)); }, [attendanceRecords]);
+  useEffect(() => { localStorage.setItem('vvce_leave_requests', JSON.stringify(leaveRequests)); }, [leaveRequests]);
+  useEffect(() => { localStorage.setItem('vvce_exams', JSON.stringify(exams)); }, [exams]);
+  useEffect(() => { localStorage.setItem('vvce_exam_attempts', JSON.stringify(examAttempts)); }, [examAttempts]);
+  useEffect(() => { localStorage.setItem('vvce_quizzes', JSON.stringify(quizzes)); }, [quizzes]);
+  useEffect(() => { localStorage.setItem('vvce_user_points', JSON.stringify(userPoints)); }, [userPoints]);
+  useEffect(() => { localStorage.setItem('vvce_user_badges', JSON.stringify(userBadges)); }, [userBadges]);
+  useEffect(() => { localStorage.setItem('vvce_interview_attempts', JSON.stringify(interviewAttempts)); }, [interviewAttempts]);
+  useEffect(() => { localStorage.setItem('vvce_announcements', JSON.stringify(announcements)); }, [announcements]);
+  useEffect(() => { localStorage.setItem('vvce_notifications', JSON.stringify(notifications)); }, [notifications]);
+  useEffect(() => { localStorage.setItem('vvce_spatial_widgets', JSON.stringify(spatialWidgets)); }, [spatialWidgets]);
+  useEffect(() => { localStorage.setItem('vvce_audit_logs', JSON.stringify(auditLogs)); }, [auditLogs]);
+  useEffect(() => { localStorage.setItem('vvce_live_interview_sessions', JSON.stringify(liveInterviewSessions)); }, [liveInterviewSessions]);
 
   useEffect(() => {
     localStorage.setItem('vvce_theme', theme);
     const root = document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-      root.classList.remove('light');
-    } else {
-      root.classList.remove('dark');
-      root.classList.add('light');
-    }
+    root.classList.add('dark');
+    root.classList.remove('light');
   }, [theme]);
 
   const setTheme = (t: ThemeMode) => setThemeState(t);

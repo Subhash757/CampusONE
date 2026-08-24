@@ -91,18 +91,7 @@ export const Header: React.FC = () => {
           </button>
         )}
 
-        {/* Dark & Light Theme Mode Switcher */}
-        <button
-          onClick={toggleTheme}
-          className="p-2 rounded-xl bg-slate-100 dark:bg-slate-900/60 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all"
-          title={`Switch to ${theme === 'dark' ? 'Light Mode' : 'Dark Mode'}`}
-        >
-          {theme === 'dark' ? (
-            <Sun className="w-4 h-4 text-amber-400" />
-          ) : (
-            <Moon className="w-4 h-4 text-slate-700" />
-          )}
-        </button>
+
 
         {/* Notifications Dropdown */}
         <div className="relative">

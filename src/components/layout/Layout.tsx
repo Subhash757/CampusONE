@@ -28,6 +28,7 @@ import { UserManagement } from '../admin/UserManagement';
 import { TimetableScreen } from '../timetable/TimetableScreen';
 import { AnnouncementsScreen } from '../notifications/AnnouncementsScreen';
 import { ProfileSettings } from '../profile/ProfileSettings';
+import { AboutCampus } from '../campus/AboutCampus';
 
 export const Layout: React.FC = () => {
   const { activeScreen, showAuthModal, setShowAuthModal } = useApp();
@@ -88,18 +89,20 @@ export const Layout: React.FC = () => {
       case 'profile':
       case 'settings':
         return <ProfileSettings />;
+      case 'about_campus':
+        return <AboutCampus />;
       default:
         return <SpatialPhysicsDashboard />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#FFFDF7] dark:bg-[#1F2933] text-slate-900 dark:text-white flex flex-col font-sans selection:bg-[#10B981] selection:text-white transition-colors duration-250">
+    <div className="min-h-screen bg-slate-100 dark:bg-[#1F2933] text-slate-900 dark:text-white flex flex-col font-sans selection:bg-[#10B981] selection:text-white transition-colors duration-250">
       <Header />
 
       <div className="flex-1 flex overflow-hidden">
         <Sidebar />
-        <main className="flex-1 relative overflow-y-auto bg-[#FFFDF7] dark:bg-[#1F2933]">
+        <main className="flex-1 relative overflow-y-auto bg-slate-100 dark:bg-[#1F2933]">
           {renderActiveScreen()}
         </main>
       </div>
