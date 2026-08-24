@@ -7,16 +7,26 @@ import {
   ArrowLeft,
   Sparkles,
   TrendingUp,
-  RotateCcw
+  RotateCcw,
+  Trash2
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 
 export const InterviewFeedbackReport: React.FC = () => {
-  const { interviewAttempts, activeInterviewAttemptId, setActiveScreen } = useApp();
+  const { interviewAttempts, activeInterviewAttemptId, deleteInterviewAttempt, setActiveScreen } = useApp();
   const attempt = interviewAttempts.find(a => a.id === activeInterviewAttemptId) || interviewAttempts[0];
 
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+
+  if (!attempt) {
+    return (
+      <div className="p-8 text-center space-y-4">
+        <p className="text-slate-400">No mock interview practice report found.</p>
+        <button onClick={() => setActiveScreen('interviews')} className="px-4 py-2 rounded-xl bg-teal-600 text-white text-xs font-bold">Return to Studio</button>
+      </div>
+    );
+  }
 
   const radarData = [
     { subject: 'Technical Depth', score: attempt.scores.technicalAccuracy, fullMark: 100 },
@@ -36,10 +46,17 @@ export const InterviewFeedbackReport: React.FC = () => {
     }
   };
 
+  const handleDeleteReport = () => {
+    if (window.confirm(`Are you sure you want to delete the AI Mock Report Card for "${attempt.questionTitle}"? This cannot be undone.`)) {
+      deleteInterviewAttempt(attempt.id);
+      setActiveScreen('interviews');
+    }
+  };
+
   return (
     <div className="p-4 md:p-8 space-y-6 max-w-6xl mx-auto">
       {/* Top Banner */}
-      <div className="flex items-center justify-between glass-panel rounded-3xl p-6 border border-white/10 shadow-2xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel rounded-3xl p-6 border border-white/10 shadow-2xl">
         <div className="space-y-1">
           <div className="flex items-center space-x-2">
             <button
@@ -53,13 +70,21 @@ export const InterviewFeedbackReport: React.FC = () => {
           <p className="text-xs text-slate-400">{attempt.questionTitle} • Session Completed {attempt.completedAt}</p>
         </div>
 
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-3 shrink-0">
           <button
             onClick={handlePlayAudioDemo}
             className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 text-xs font-semibold border border-cyan-500/30"
           >
             <Volume2 className={`w-4 h-4 ${isPlayingAudio ? 'animate-bounce' : ''}`} />
-            <span>{isPlayingAudio ? 'Playing Recorded Audio...' : 'Listen to Recorded Response'}</span>
+            <span>{isPlayingAudio ? 'Playing Recorded Audio...' : 'Listen to Response'}</span>
+          </button>
+          <button
+            onClick={handleDeleteReport}
+            className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 text-xs font-bold border border-rose-500/30 transition-all"
+            title="Delete this Report Card"
+          >
+            <Trash2 className="w-4 h-4" />
+            <span>Delete Report Card</span>
           </button>
         </div>
       </div>

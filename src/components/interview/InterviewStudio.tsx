@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mic, Play, ArrowRight, History, ArrowLeft, Camera, Shield, FileText, Eye, BookOpen } from 'lucide-react';
+import { Mic, Play, ArrowRight, History, ArrowLeft, Camera, Shield, FileText, Eye, BookOpen, Trash2 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { mockInterviewCategories } from '../../data/mockData';
 
@@ -7,8 +7,10 @@ export const InterviewStudio: React.FC = () => {
   const {
     setActiveScreen,
     interviewAttempts,
+    deleteInterviewAttempt,
     setActiveInterviewAttemptId,
     liveInterviewSessions,
+    deleteLiveInterviewSession,
     setActiveLiveSessionId,
     currentUser
   } = useApp();
@@ -150,8 +152,8 @@ export const InterviewStudio: React.FC = () => {
                     <span className="text-[10px] text-slate-500 dark:text-slate-400">{session.studentRollNo}</span>
                   </div>
                 </div>
-                <div className="flex items-center space-x-4 shrink-0">
-                  <div className="text-right">
+                <div className="flex items-center space-x-2 shrink-0">
+                  <div className="text-right mr-2">
                     <span className="text-xl font-black text-[#10B981] font-mono">{session.overallScore}%</span>
                     <span className="text-[10px] text-slate-500 dark:text-slate-400 block font-mono">Overall</span>
                   </div>
@@ -161,6 +163,18 @@ export const InterviewStudio: React.FC = () => {
                   >
                     <Eye className="w-3.5 h-3.5" />
                     <span>{isFacultyOrAdmin ? 'Review & Download' : 'View Report'}</span>
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (window.confirm(`Are you sure you want to delete the Live Proctored Report Card for "${session.studentName} - ${session.problemTitle}"?`)) {
+                        deleteLiveInterviewSession(session.id);
+                      }
+                    }}
+                    className="p-2 rounded-xl bg-[#FF6B6B]/10 hover:bg-[#FF6B6B]/20 text-[#FF6B6B] text-xs font-bold border border-[#FF6B6B]/25 transition-all"
+                    title="Delete Report Card"
+                  >
+                    <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
               </div>
@@ -222,13 +236,25 @@ export const InterviewStudio: React.FC = () => {
                     Duration: {attempt.durationSeconds}s • Completed {attempt.completedAt}
                   </p>
                 </div>
-                <div className="flex items-center space-x-4">
-                  <div className="text-right">
+                <div className="flex items-center space-x-2">
+                  <div className="text-right mr-2">
                     <span className="text-base font-black text-[#10B981] font-mono">{attempt.scores.overall}%</span>
                     <span className="text-[10px] text-slate-500 dark:text-slate-400 block font-mono">Overall Score</span>
                   </div>
                   <button className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-[#1F2933] text-[#10B981] font-semibold text-xs border border-slate-200 dark:border-white/5 hover:bg-slate-200 dark:hover:bg-[#3D4C54]">
                     <FileText className="w-3.5 h-3.5 inline mr-1" />Spider Report
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (window.confirm(`Are you sure you want to delete the AI Mock Report Card for "${attempt.questionTitle}"?`)) {
+                        deleteInterviewAttempt(attempt.id);
+                      }
+                    }}
+                    className="p-2 rounded-xl bg-[#FF6B6B]/10 hover:bg-[#FF6B6B]/20 text-[#FF6B6B] text-xs font-bold border border-[#FF6B6B]/25 transition-all ml-1"
+                    title="Delete Report Card"
+                  >
+                    <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
               </div>

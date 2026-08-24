@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Camera, CameraOff, Clock, Shield, AlertTriangle, CheckCircle,
   Play, Send, ArrowLeft, Download, Eye, EyeOff, Mic, Volume2,
-  FileText, Code2, CheckCircle2, HelpCircle, Terminal, Award
+  FileText, Code2, CheckCircle2, HelpCircle, Terminal, Award, Trash2,
+  BookOpen, X, Info
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { Question } from '../../types';
@@ -385,6 +386,7 @@ export const LiveCameraExam: React.FC = () => {
   const [cameraReady, setCameraReady] = useState(false);
   const [micActive, setMicActive] = useState(false);
   const [audioLevel, setAudioLevel] = useState(15); // simulated audio meter %
+  const [showInstructionsModal, setShowInstructionsModal] = useState(false);
 
   // Answers & Exam state
   const [activeTab, setActiveTab] = useState<'partA' | 'partB' | 'partC'>('partA');
@@ -736,16 +738,83 @@ export const LiveCameraExam: React.FC = () => {
           answersPartC={answersPartC}
         />
 
-        <div className="flex items-center space-x-3 glass-panel rounded-3xl p-6 border border-slate-200 dark:border-white/10 bg-white dark:bg-[#324148]">
-          <button onClick={() => setActiveScreen('exams')} className="p-2 rounded-xl bg-slate-100 dark:bg-[#1F2933] border border-slate-300 dark:border-white/10">
-            <ArrowLeft className="w-5 h-5 text-[#10B981]" />
-          </button>
-          <span className="p-2 rounded-xl bg-[#FF6B6B]/15 border border-[#FF6B6B]/30"><Camera className="w-6 h-6 text-[#FF6B6B]" /></span>
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">100-Marks Live Camera Proctored Exam</h1>
-            <p className="text-xs text-slate-500 dark:text-slate-400">Strict AI camera monitoring &amp; audio proctoring • 90 Minutes Duration</p>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel rounded-3xl p-6 border border-slate-200 dark:border-white/10 bg-white dark:bg-[#324148]">
+          <div className="flex items-center space-x-3">
+            <button onClick={() => setActiveScreen('exams')} className="p-2 rounded-xl bg-slate-100 dark:bg-[#1F2933] border border-slate-300 dark:border-white/10">
+              <ArrowLeft className="w-5 h-5 text-[#10B981]" />
+            </button>
+            <span className="p-2 rounded-xl bg-[#FF6B6B]/15 border border-[#FF6B6B]/30"><Camera className="w-6 h-6 text-[#FF6B6B]" /></span>
+            <div>
+              <h1 className="text-2xl font-bold text-slate-900 dark:text-white">100-Marks Live Camera Proctored Exam</h1>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Strict AI camera monitoring &amp; audio proctoring • 90 Minutes Duration</p>
+            </div>
           </div>
+          <button
+            onClick={() => setShowInstructionsModal(true)}
+            className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-[#F4C95D] hover:bg-[#e3b84c] text-[#1F2933] font-bold text-xs shadow-md transition-all shrink-0"
+          >
+            <BookOpen className="w-4 h-4 text-[#1F2933]" />
+            <span>Rules &amp; Instructions</span>
+          </button>
         </div>
+
+        {/* Modal Overlay */}
+        {showInstructionsModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto glass-panel rounded-3xl p-6 border border-slate-200 dark:border-white/10 bg-white dark:bg-[#324148] shadow-2xl space-y-6">
+              <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-white/10">
+                <div className="flex items-center space-x-3">
+                  <span className="p-2.5 rounded-2xl bg-[#F4C95D]/20 text-[#F4C95D] border border-[#F4C95D]/30">
+                    <BookOpen className="w-6 h-6 text-[#F4C95D]" />
+                  </span>
+                  <div>
+                    <h2 className="text-xl font-bold text-slate-900 dark:text-white">100-Marks Proctored Exam Instructions</h2>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">CS-601 Advanced Computer Science &amp; Systems Architecture</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowInstructionsModal(false)}
+                  className="p-2 rounded-xl bg-slate-100 dark:bg-[#1F2933] text-slate-500 dark:text-slate-400"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="space-y-4 text-xs text-slate-700 dark:text-slate-300">
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-[#1F2933] border border-slate-200 dark:border-white/10 space-y-2">
+                  <h3 className="font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+                    <FileText className="w-4 h-4 text-[#10B981]" /><span>Question Paper Structure (100 Marks)</span>
+                  </h3>
+                  <ul className="space-y-1 list-disc pl-5">
+                    <li><strong>Part A (30M)</strong>: 10 Objective MCQs @ 3 Marks each.</li>
+                    <li><strong>Part B (30M)</strong>: 4 Technical Short Answer Questions @ 7.5 Marks each.</li>
+                    <li><strong>Part C (40M)</strong>: 2 Coding Problems @ 20 Marks each. Write code directly in the provided editor.</li>
+                  </ul>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-[#1F2933] border border-slate-200 dark:border-white/10 space-y-2">
+                  <h3 className="font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+                    <Camera className="w-4 h-4 text-[#FF6B6B]" /><span>AI Camera &amp; Audio Proctoring</span>
+                  </h3>
+                  <ul className="space-y-1 list-disc pl-5">
+                    <li>Webcam captures snapshot frames every 15 seconds.</li>
+                    <li>Tab-switching or losing window focus increments Focus Lost warnings.</li>
+                    <li>Ensure proper posture and lighting to avoid automated posture warnings.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-slate-200 dark:border-white/10 flex justify-end">
+                <button
+                  onClick={() => setShowInstructionsModal(false)}
+                  className="px-6 py-2.5 rounded-xl bg-[#10B981] hover:bg-[#059669] text-white font-bold text-xs"
+                >
+                  Close Instructions
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="glass-panel rounded-3xl p-6 border border-slate-200 dark:border-white/10 bg-white dark:bg-[#324148] space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -867,7 +936,7 @@ export const LiveCameraExam: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex justify-center space-x-4">
+          <div className="flex flex-wrap justify-center gap-3">
             <button
               onClick={handleDownloadPDF}
               className="flex items-center space-x-2 px-6 py-3 rounded-xl bg-[#10B981] hover:bg-[#059669] text-white font-bold text-xs shadow-lg transition-all"
@@ -879,6 +948,18 @@ export const LiveCameraExam: React.FC = () => {
               className="px-6 py-3 rounded-xl bg-slate-100 dark:bg-[#1F2933] text-slate-700 dark:text-slate-200 font-semibold text-xs border border-slate-300 dark:border-white/10"
             >
               Return to Exam Center
+            </button>
+            <button
+              onClick={() => {
+                if (window.confirm("Are you sure you want to discard/delete this 100-Marks Exam Scorecard report?")) {
+                  addAuditLog('Discarded Exam Scorecard Report', `Student: ${currentUser.name}`);
+                  setActiveScreen('exams');
+                }
+              }}
+              className="flex items-center space-x-2 px-5 py-3 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 font-bold text-xs border border-rose-500/30 transition-all"
+              title="Delete / Discard Scorecard"
+            >
+              <Trash2 className="w-4 h-4" /><span>Delete / Discard Scorecard</span>
             </button>
           </div>
         </div>
@@ -899,7 +980,16 @@ export const LiveCameraExam: React.FC = () => {
         </div>
 
         {/* Live Timer & Camera Thumbnail */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3">
+          <button
+            onClick={() => setShowInstructionsModal(true)}
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-[#F4C95D]/20 hover:bg-[#F4C95D]/30 text-[#F4C95D] font-bold text-xs border border-[#F4C95D]/30 transition-all"
+            title="View Exam Rules & Instructions"
+          >
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>Instructions</span>
+          </button>
+
           <div className="flex items-center space-x-2 px-3 py-1 rounded-xl bg-[#1F2933] border border-white/10 font-mono font-bold text-xs text-[#F4C95D]">
             <Clock className="w-3.5 h-3.5" />
             <span>{formatTimer(elapsedSeconds)}</span>

@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import {
   ArrowLeft, Download, Shield, CheckCircle, AlertTriangle,
   Camera, Clock, Code2, User, Star, Pencil, Save, Printer,
-  FileText, BookOpen, Award, Eye
+  FileText, BookOpen, Award, Eye, Trash2
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { LiveInterviewSession } from '../../types';
@@ -192,7 +192,7 @@ const PrintReport: React.FC<{ session: LiveInterviewSession }> = ({ session }) =
 
 // ─── Main Review Screen ───────────────────────────────────────────────────────
 export const LiveInterviewReview: React.FC = () => {
-  const { liveInterviewSessions, activeLiveSessionId, updateSessionRemarks, setActiveScreen, currentUser } = useApp();
+  const { liveInterviewSessions, activeLiveSessionId, updateSessionRemarks, deleteLiveInterviewSession, setActiveScreen, currentUser } = useApp();
 
   const session: LiveInterviewSession | undefined =
     liveInterviewSessions.find(s => s.id === activeLiveSessionId) || liveInterviewSessions[0];
@@ -236,6 +236,13 @@ export const LiveInterviewReview: React.FC = () => {
     }
   };
 
+  const handleDeleteReportCard = () => {
+    if (window.confirm(`Are you sure you want to delete this Interview Report Card for "${session.studentName} - ${session.problemTitle}"? This action cannot be undone.`)) {
+      deleteLiveInterviewSession(session.id);
+      setActiveScreen(isFacultyOrAdmin ? 'faculty_lounge' : 'interviews');
+    }
+  };
+
   const statCards = [
     { label: 'Overall Score', value: `${session.overallScore}%`, color: 'text-[#10B981]', bg: 'bg-[#10B981]/10 border-[#10B981]/20' },
     { label: 'Code Score', value: `${session.codeScore}%`, color: 'text-[#F4C95D]', bg: 'bg-[#F4C95D]/10 border-[#F4C95D]/20' },
@@ -267,14 +274,25 @@ export const LiveInterviewReview: React.FC = () => {
             <p className="text-xs text-slate-500 dark:text-slate-400">{session.problemTitle} · Submitted {session.submittedAt}</p>
           </div>
         </div>
-        <button
-          id="download-pdf-btn"
-          onClick={handleDownloadPDF}
-          className="flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-[#10B981] hover:bg-[#059669] text-white font-bold text-xs shadow-lg shadow-[#10B981]/25 active:scale-[0.98] transition-all shrink-0"
-        >
-          <Download className="w-4 h-4" />
-          <span>Download PDF Report</span>
-        </button>
+        <div className="flex items-center space-x-3 shrink-0">
+          <button
+            id="download-pdf-btn"
+            onClick={handleDownloadPDF}
+            className="flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-[#10B981] hover:bg-[#059669] text-white font-bold text-xs shadow-lg shadow-[#10B981]/25 active:scale-[0.98] transition-all"
+          >
+            <Download className="w-4 h-4" />
+            <span>Download PDF Report</span>
+          </button>
+          <button
+            id="delete-report-card-btn"
+            onClick={handleDeleteReportCard}
+            className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-[#FF6B6B]/15 hover:bg-[#FF6B6B]/25 text-[#FF6B6B] border border-[#FF6B6B]/30 font-bold text-xs shadow-md active:scale-[0.98] transition-all"
+            title="Delete this Report Card"
+          >
+            <Trash2 className="w-4 h-4" />
+            <span>Delete Report Card</span>
+          </button>
+        </div>
       </div>
 
       {/* Success toast */}

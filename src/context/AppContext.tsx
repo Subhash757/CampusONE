@@ -96,6 +96,7 @@ interface AppContextType {
   setActiveExamId: (id: string | null) => void;
   examAttempts: ExamAttempt[];
   submitExamAttempt: (attempt: ExamAttempt) => void;
+  deleteExamAttempt: (id: string) => void;
   
   quizzes: Quiz[];
   activeQuizId: string | null;
@@ -105,6 +106,7 @@ interface AppContextType {
   
   interviewAttempts: InterviewAttempt[];
   addInterviewAttempt: (attempt: InterviewAttempt) => void;
+  deleteInterviewAttempt: (id: string) => void;
   activeInterviewAttemptId: string | null;
   setActiveInterviewAttemptId: (id: string | null) => void;
   
@@ -124,6 +126,7 @@ interface AppContextType {
 
   liveInterviewSessions: LiveInterviewSession[];
   submitLiveSession: (session: LiveInterviewSession) => void;
+  deleteLiveInterviewSession: (id: string) => void;
   updateSessionRemarks: (id: string, remarks: string) => void;
   sendMentorFeedbackPhoto: (id: string, photoUrl: string, remark: string) => void;
   activeLiveSessionId: string | null;
@@ -297,11 +300,28 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     addAuditLog(`Submitted Exam Attempt`, `ExamID: ${attempt.examId}`);
   };
 
+  const deleteExamAttempt = (id: string) => {
+    setExamAttempts(prev => prev.filter(a => a.id !== id));
+    addAuditLog(`Deleted Exam Scorecard Attempt`, `AttemptID: ${id}`);
+  };
+
   const addInterviewAttempt = (attempt: InterviewAttempt) => {
     setInterviewAttempts(prev => [attempt, ...prev]);
     setActiveInterviewAttemptId(attempt.id);
     setUserPoints(pts => pts + Math.round(attempt.scores.overall * 1.5));
     addAuditLog(`Completed Mock Interview Practice`, `Score: ${attempt.scores.overall}%`);
+  };
+
+  const deleteInterviewAttempt = (id: string) => {
+    const target = interviewAttempts.find(a => a.id === id);
+    setInterviewAttempts(prev => prev.filter(a => a.id !== id));
+    if (activeInterviewAttemptId === id) {
+      const remaining = interviewAttempts.filter(a => a.id !== id);
+      setActiveInterviewAttemptId(remaining[0]?.id || null);
+    }
+    if (target) {
+      addAuditLog(`Deleted AI Mock Interview Report Card`, `Question: ${target.questionTitle}`);
+    }
   };
 
   const addAnnouncement = (anc: Omit<Announcement, 'id' | 'createdAt'>) => {
@@ -351,6 +371,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const submitLiveSession = (session: LiveInterviewSession) => {
     setLiveInterviewSessions(prev => [session, ...prev.filter(s => s.id !== session.id)]);
     addAuditLog(`Submitted Live Proctored Interview: ${session.problemTitle}`, `Student: ${session.studentName} | Score: ${session.overallScore}%`);
+  };
+
+  const deleteLiveInterviewSession = (id: string) => {
+    const target = liveInterviewSessions.find(s => s.id === id);
+    setLiveInterviewSessions(prev => prev.filter(s => s.id !== id));
+    if (activeLiveSessionId === id) {
+      setActiveLiveSessionId(null);
+    }
+    if (target) {
+      addAuditLog(`Deleted Live Proctored Interview Report Card`, `Student: ${target.studentName} | Problem: ${target.problemTitle}`);
+    }
   };
 
   const updateSessionRemarks = (id: string, remarks: string) => {
@@ -444,6 +475,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setActiveExamId,
         examAttempts,
         submitExamAttempt,
+        deleteExamAttempt,
         quizzes,
         activeQuizId,
         setActiveQuizId,
@@ -451,6 +483,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         userBadges,
         interviewAttempts,
         addInterviewAttempt,
+        deleteInterviewAttempt,
         activeInterviewAttemptId,
         setActiveInterviewAttemptId,
         announcements,
@@ -465,6 +498,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         addAuditLog,
         liveInterviewSessions,
         submitLiveSession,
+        deleteLiveInterviewSession,
         updateSessionRemarks,
         sendMentorFeedbackPhoto,
         activeLiveSessionId,
